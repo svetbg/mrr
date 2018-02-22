@@ -174,7 +174,7 @@ $modifier = isset($modifier) ? $modifier : 0;
 $currency = isset($currency) ? $currency : 'LTC';
 $algo = isset($algo) ? $algo : 'scrypt';
 $rigID = isset($rigID) ? $rigID : 12345;
-$updatePrice = isset($updatePrice) ? $updatePrice : false;
+$updatePrice = (isset($updatePrice) and $updatePrice != 'false') ? true : false;
 $th = isset($th) ? $th : 'mh';
 
 $algoInfo = $mrr->get("/info/algos/$algo", ['currency' => $currency]);
