@@ -187,7 +187,7 @@ if (isset($algoInfo['success']) and $algoInfo['success'] == true) {
 $currentPrice = 0;
 if ($suggestedPrice) {
     $l3 = $mrr->get("/rig/$rigID");
-    if ($l3 and !empty(($data=$l3['data']) and !empty($price=$data['price']) and !empty($currencyPrice=$price[$currency])))
+    if ($l3 and !empty($status['success']) and !empty(($data=$l3['data']) and !empty($price=$data['price']) and !empty($currencyPrice=$price[$currency])))
         $currentPrice = !empty($currencyPrice['price']) ? $currencyPrice['price'] : 0;
 
     $params = array(
@@ -210,8 +210,9 @@ if ($suggestedPrice) {
 
     if ($updatePrice) {
         try {
-            $mrr->put("/rig/$rigID", $params);
-            echo 'Update price: ' . $suggestedPrice . PHP_EOL;
+            $status = $mrr->put("/rig/$rigID", $params);
+            if (!empty($status['success']))
+                echo 'Update price: ' . $suggestedPrice . PHP_EOL;
         } catch (Exception $e) {
             echo $e->getMessage() . PHP_EOL;
         }
