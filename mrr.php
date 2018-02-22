@@ -157,6 +157,7 @@ $longopts  = array(
     "currency:",
     "rigID:",
     "updatePrice:",
+    "th:",
     "modifier::",
 );
 $options = getopt($shortopts, $longopts);
@@ -174,6 +175,7 @@ $currency = isset($currency) ? $currency : 'LTC';
 $algo = isset($algo) ? $algo : 'scrypt';
 $rigID = isset($rigID) ? $rigID : 12345;
 $updatePrice = isset($updatePrice) ? $updatePrice : false;
+$th = isset($th) ? $th : 'mh';
 
 $algoInfo = $mrr->get("/info/algos/$algo", ['currency' => $currency]);
 $suggestedPrice = 0;
@@ -186,8 +188,8 @@ if (isset($algoInfo['success']) and $algoInfo['success'] == true) {
 
 $currentPrice = 0;
 if ($suggestedPrice) {
-    $l3 = $mrr->get("/rig/$rigID");
-    if ($l3 and !empty($status['success']) and !empty(($data=$l3['data']) and !empty($price=$data['price']) and !empty($currencyPrice=$price[$currency])))
+    $rig = $mrr->get("/rig/$rigID");
+    if ($rig and !empty($rig['success']) and !empty(($data=$rig['data']) and !empty($price=$data['price']) and !empty($currencyPrice=$price[$currency])))
         $currentPrice = !empty($currencyPrice['price']) ? $currencyPrice['price'] : 0;
 
     $params = array(
@@ -198,7 +200,7 @@ if ($suggestedPrice) {
 //        "type"=>"scrypt",
 //        "server"=>"us-central01.miningrigrentals.com",
         "price"=>array(
-//            "type"=>"gh",
+            "type"=>$th,
             $currency=>array(
                 "price"=>$suggestedPrice,
             )

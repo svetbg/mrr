@@ -5,8 +5,11 @@ The script updates an algo rig price for given currency (BTC. LTC. etc.) getting
 ### Usage: <br />
 Update mrr_config.php with your api and secret from MRR <br />
 
-php mrr.php --algo=scrypt --currency=LTC --modifier=0.03 --updatePrice=true --rigID=12345
+php mrr.php --algo=scrypt --currency=LTC --modifier=0.03 --th=mh --updatePrice=true --rigID=12345
 
+--th 
+- mh for scrypt
+- th for sha256
 
 <br /><br />
 
