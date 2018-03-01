@@ -159,6 +159,7 @@ $longopts  = array(
     "updatePrice:",
     "th:",
     "modifier::",
+    "minPrice::",
 );
 $options = getopt($shortopts, $longopts);
 foreach ($options as $var => $option) {
@@ -176,6 +177,7 @@ $algo = isset($algo) ? $algo : 'scrypt';
 $rigID = isset($rigID) ? $rigID : 12345;
 $updatePrice = (isset($updatePrice) and $updatePrice != 'false') ? true : false;
 $th = isset($th) ? $th : 'mh';
+$minPrice = isset($minPrice) ? $minPrice : 0;
 
 $algoInfo = $mrr->get("/info/algos/$algo", ['currency' => $currency]);
 $suggestedPrice = 0;
@@ -187,7 +189,7 @@ if (isset($algoInfo['success']) and $algoInfo['success'] == true) {
 }
 
 $currentPrice = 0;
-if ($suggestedPrice) {
+if ($suggestedPrice > $minPrice) {
     $rig = $mrr->get("/rig/$rigID");
     if ($rig and !empty($rig['success']) and !empty(($data=$rig['data']) and !empty($price=$data['price']) and !empty($currencyPrice=$price[$currency])))
         $currentPrice = !empty($currencyPrice['price']) ? $currencyPrice['price'] : 0;
